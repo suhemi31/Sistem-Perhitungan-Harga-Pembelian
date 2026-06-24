@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perhitungan Bonus Pembelian</title>
+
+<link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+}
+
+.header{
+background: linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+padding: 3px;
+border-radius:15px;
+text-align: center;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+
+.container{
+    width:500px;
+    margin:30px auto;
+    background:rgb(147, 147, 151);
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+h2{
+    text-align:center;
+}
+
+label{
+    display:block;
+    margin-top:10px;
+}
+
+input{
+    width:95%;
+    padding: 10px;
+    margin-top:10px;
+    border-radius:5px;
+    padding-left: 10px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:10px 20px;
+    margin-top:15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.btn-hitung{
+    background:rgb(56, 61, 56);
+    color:white;
+}
+
+.btn-reset{
+    background:rgb(56, 61, 56);
+    color:white;
+}
+
+.hasil{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    background:#e8f5e9;
+    border-radius:10px;
+}
+
+.judul-hasil{
+    background: linear-gradient(135deg,#4e73df,#224abe);
+    color:white;
+    padding:1px;
+    border-radius:2px;
+    text-align:center;
+    margin-bottom:2px;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+button{
+transition:.3s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1><i class="bi bi-calculator-fill"></i>
+Sistem Perhitungan Harga Pembelian
+</h1>
+</div>
+
+<h2 class="container">Data Informasi Pembelian</h2>
+
+<div class="container">
+
+<label> <i class="bi bi-person-fill"></i> Nama Pelanggan</label>
+<input type="text" id="nama">
+
+<label> <i class="bi bi-box-seam"></i> Nama Produk</label>
+<input type="text" id="produk">
+
+<label> <i class="bi bi-cash-stack"></i> Harga Produk</label>
+<input type="number" id="harga">
+
+<label> <i class="bi bi-cart-fill"></i> Jumlah Pembelian</label>
+<input type="number" id="jumlah">
+
+<button class="btn-hitung" onclick="hitung()">Hitung</button>
+<button class="btn-reset" onclick="resetForm()">Reset</button>
+
+
+<div class="hasil" id="hasil">
+    
+<div class="judul-hasil">
+    <h2>🧾 Invoice Pembelian</h2>
+    <h3>Data Transaksi Pembelian Pelanggan</h3>
+</div>
+
+<p><b>Nama Pelanggan :</b>
+<span id="outNama"></span></p>
+
+<p><b>Nama Produk :</b>
+<span id="outProduk"></span></p>
+
+<p><b>Total Belanja :</b>
+Rp <span id="outBelanja"></span></p>
+
+<p><b>Bonus :</b>
+<span id="outBonus"></span></p>
+
+<p><b>Potongan :</b>
+Rp <span id="outPotongan"></span></p>
+
+<p><b>Total Bayar :</b>
+Rp <span id="outBayar"></span></p>
+
+</div>
+</div>
+<script>
+
+function hitung(){
+
+let nama=document.getElementById("nama").value;
+let produk=document.getElementById("produk").value;
+let harga=document.getElementById("harga").value;
+let jumlah=document.getElementById("jumlah").value;
+
+
+// validasi
+if(nama=="" || produk=="" || harga=="" || jumlah==""){
+    alert("Semua input wajib diisi!");
+    return;
+}
+
+if(isNaN(harga) || isNaN(jumlah)){
+    alert("Harga dan Jumlah harus berupa angka!");
+    return;
+}
+
+harga=parseFloat(harga);
+jumlah=parseInt(jumlah);
+
+
+// operasi aritmatika
+let totalBelanja=harga*jumlah;
+
+let bonus="";
+let potongan=0;
+
+
+// percabangan if
+if(totalBelanja>=400000){
+    bonus="Mug Eksklusif";
+    potongan=50000;
+}
+else{
+    bonus="Tidak Ada";
+    potongan=0;
+}
+
+let totalBayar=totalBelanja-potongan;
+
+
+// manipulasi DOM
+document.getElementById("outNama").innerHTML=nama;
+document.getElementById("outProduk").innerHTML=produk;
+document.getElementById("outBelanja").innerHTML=totalBelanja.toLocaleString("id-ID");
+document.getElementById("outBonus").innerHTML=bonus;
+document.getElementById("outPotongan").innerHTML=potongan.toLocaleString("id-ID");
+document.getElementById("outBayar").innerHTML=totalBayar.toLocaleString("id-ID");
+
+document.getElementById("hasil").style.display="block";
+
+}
+
+function resetForm(){
+
+document.getElementById("nama").value="";
+document.getElementById("produk").value="";
+document.getElementById("harga").value="";
+document.getElementById("jumlah").value="";
+
+document.getElementById("hasil").style.display="none";
+}
+
+</script>
+
+<div class="header">
+<footer class="footer">
+    <p>
+        <i class="bi bi-c-circle"></i> 2026 Ahmad Suhemi |
+        <i class="bi bi-mortarboard-fill"></i> Sistem Informasi |
+        <i class="bi bi-building"></i> Universitas Pamulang Kota Serang
+    </p>
+</footer>
+</div>
+
+</body>
+</html>
